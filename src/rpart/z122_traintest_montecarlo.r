@@ -7,9 +7,18 @@ require("parallel")
 
 PARAM <- list()
 # reemplazar por las propias semillas
-PARAM$semillas <- c(102191, 200177, 410551, 552581, 892237)
+#PARAM$semillas <- c(999961,999979,999983,999991,999997, 100019, 110023, 120041, 130043, 140053, 100023, 100037, 100073, 100097, 116959, 101599, 388177, 254747, 379289, 154027)
+PARAM$semillas <- c(110023,300089, 320057, 320027, 320009, 320039 )
 
 #------------------------------------------------------------------------------
+# Subir en la jerarquia de carpetas
+navigate_up <- function(directory, levels = 1) {
+  dir <- directory
+  for (i in 1:levels) {
+    dir <- dirname(dir)
+  }
+  return(dir)
+}
 # particionar agrega una columna llamada fold a un dataset que consiste
 #  en una particion estratificada segun agrupa
 # particionar( data=dataset, division=c(70,30), agrupa=clase_ternaria, seed=semilla)
@@ -77,12 +86,17 @@ ArbolEstimarGanancia <- function(semilla, param_basicos) {
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 
+script_dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+work_dir <- navigate_up(script_dir, levels = 2)
+dataset_dir <- paste(navigate_up(script_dir, levels = 3),"/Datasets/dataset_pequeno.csv", sep = "") 
+setwd(work_dir)# Establezco el Working Directory
+
 # Aqui se debe poner la carpeta de la computadora local
-setwd("~/buckets/b1/") # Establezco el Working Directory
+#setwd("~/buckets/b1/") # Establezco el Working Directory
 # cargo los datos
 
 # cargo los datos
-dataset <- fread("./datasets/dataset_pequeno.csv")
+dataset <- fread(dataset_dir)
 
 # trabajo solo con los datos con clase, es decir 202107
 dataset <- dataset[clase_ternaria != ""]
@@ -90,9 +104,9 @@ dataset <- dataset[clase_ternaria != ""]
 
 param_basicos <- list(
   "cp" = -1, # complejidad minima
-  "minsplit" = 900, # minima cant de registros en un nodo para hacer el split
-  "minbucket" = 440, # minima cantidad de registros en una hoja
-  "maxdepth" = 5
+  "minsplit" = 600, # minima cant de registros en un nodo para hacer el split
+  "minbucket" = 300, # minima cantidad de registros en una hoja
+  "maxdepth" = 8
 ) # profundidad máxima del arbol
 
 # Un solo llamado, con la semilla 17
@@ -105,7 +119,7 @@ salidas <- mcmapply(ArbolEstimarGanancia,
   PARAM$semillas, # paso el vector de semillas
   MoreArgs = list(param_basicos), # aqui paso el segundo parametro
   SIMPLIFY = FALSE,
-  mc.cores = 5  # en Windows este valor debe ser 1
+  mc.cores = 1  # Original 5 - en Windows este valor debe ser 1
 )
 
 # muestro la lista de las salidas en testing
