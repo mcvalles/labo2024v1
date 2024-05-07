@@ -14,8 +14,9 @@ require("ParamHelpers")
 envg <- env()
 
 envg$EXPENV <- list()
-envg$EXPENV$exp_dir <- "~/buckets/b1/experimentos/exp1-pca/exp/"
-envg$EXPENV$wf_dir <- "~/buckets/b1/experimentos/exp1-pca/flow/"
+envg$EXPENV$dir <- "~/buckets/b1/exp1-pca/"
+envg$EXPENV$exp_dir <- "~/buckets/b1/exp1-pca/exp/"
+envg$EXPENV$wf_dir <- "~/buckets/b1/exp1-pca/flow/"
 envg$EXPENV$wf_dir_local <- "~/flow/"
 envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
@@ -41,8 +42,8 @@ options(error = function() {
 })
 #------------------------------------------------------------------------------
 # inicializaciones varias
-
-dir.create( envg$EXPENV$wf_dir, showWarnings = FALSE)
+dir.create( envg$EXPENV$dir, showWarnings = FALSE)
+dir.create( envg$EXPENV$exp_dir, showWarnings = FALSE)
 dir.create( envg$EXPENV$wf_dir, showWarnings = FALSE)
 dir.create( envg$EXPENV$wf_dir_local, showWarnings = FALSE)
 setwd( envg$EXPENV$wf_dir_local )
