@@ -9,6 +9,7 @@ require("rlang")
 require("yaml")
 require("data.table")
 require("ParamHelpers")
+require("dplyr")
 
 # creo environment global
 envg <- env()
